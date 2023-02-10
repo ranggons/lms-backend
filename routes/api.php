@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('founding-father')->as('sudo.')->group(base_path('routes/rangon.php'));
+Route::as('api.')->group(function () {
+    Route::prefix('founding-father')->as('sudo.')->group(base_path('routes/rangon.php'));
+});
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
