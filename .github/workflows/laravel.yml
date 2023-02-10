@@ -11,14 +11,29 @@ jobs:
     name: Laravel (PHP ${{ matrix.php-versions }})
     runs-on: ubuntu-latest
 
+    env:
+      DB_DATABASE: rangon_test
+      DB_USERNAME: root
+      DB_PASSWORD: password
+      DB_HOST: 127.0.0.1
+      DB_PORT: 32574
+      REDIS_PORT: 6379
+      BROADCAST_DRIVER: log
+      CACHE_DRIVER: redis
+      QUEUE_CONNECTION: redis
+      SESSION_DRIVER: redis
+      MYSQL_ALLOW_EMPTY_PASSWORD: false
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: rangon_test
+
     services:
 
       mariadb:
         image: mariadb:latest
         env:
-          MYSQL_DATABASE: rangon_test
-          MYSQL_ROOT_PASSWORD: password
           MYSQL_ALLOW_EMPTY_PASSWORD: false
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: rangon_test
         ports:
           - 32574:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -62,7 +77,8 @@ jobs:
       - name: Create Database
         run: |
           mysql -u root -ppassword
-          CREATE DATABASE db_name;
+
+          CREATE DATABASE rangon_test;
           \q
 
       - name: Install Composer Dependencies
