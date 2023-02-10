@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use Database\Seeders\Rangon\UserSeeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Database\Seeders\Development\RangonSeeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class RangonSeeder extends Seeder
+class DevelopmentSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,7 +18,7 @@ class RangonSeeder extends Seeder
         //
         $this->call(
             [
-                UserSeeder::class,
+                RangonSeeder::class
             ]
         );
     }
