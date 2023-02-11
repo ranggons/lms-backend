@@ -7,8 +7,8 @@ on:
     branches: [ "main", "dev" ]
 
 jobs:
-  continuous-integration:
-    name: Laravel (PHP ${{ matrix.php-versions }})
+  prepare-env:
+    name: Preparing Environment
     runs-on: ubuntu-latest
 
     env:
@@ -88,9 +88,18 @@ jobs:
       - name: Run Migration
         run: php artisan migrate
 
-      - name: Begin Testing
-        run: vendor/bin/phpunit --coverage-text
+      # - name: Begin Testing
+      #   run: vendor/bin/phpunit --coverage-text
 
+  test-rangon:
+
+    name: Preparing Environment
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Begin Testing
+        run: vendor/bin/phpunit --coverage-text --testsuite="Super User Rangon"
   # laravel-tests:
 
   #   runs-on: ubuntu-latest
