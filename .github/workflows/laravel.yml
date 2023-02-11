@@ -87,19 +87,9 @@ jobs:
 
       - name: Run Migration
         run: php artisan migrate
-
-      # - name: Begin Testing
-      #   run: vendor/bin/phpunit --coverage-text
-
-  test-rangon:
-
-    name: Preparing Environment
-
-    runs-on: ubuntu-latest
-
-    steps:
       - name: Begin Testing
         run: vendor/bin/phpunit --coverage-text --testsuite="Super User Rangon"
+
   # laravel-tests:
 
   #   runs-on: ubuntu-latest
