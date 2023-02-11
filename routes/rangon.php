@@ -16,7 +16,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('auth')->controller(AuthenticationController::class)->group(function () {
+
     Route::post('login', 'login')->name('login');
+    Route::post('forgot-password', 'forgotPassword')->name('password.request');
+    Route::post('reset-password', 'resetPassword')->name('password.reset');
+
     Route::middleware(['api', 'auth:sanctum'])->group(function () {
         Route::post('logout', 'logout')->name('logout');
     });
