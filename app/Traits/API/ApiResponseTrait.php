@@ -4,8 +4,6 @@ namespace App\Traits\API;
 
 trait ApiResponseTrait
 {
-
-
     public function successResponse(array $data, array $optionalResponses = null)
     {
         $response = [
@@ -14,14 +12,12 @@ trait ApiResponseTrait
             'data'      =>  $data
         ];
         if ($optionalResponses) {
-            foreach ($optionalResponses as $key => $value) {
-                $response['key'] = $value;
-            }
+            $response = $this->addOptionalResponse($response, $optionalResponses);
         }
         return response($response);
     }
 
-    public function errorResponse(string $message, int $errorCode = 400, array $optionalResponses = null)
+    public function errorResponse(string $message, int $errorCode = 400, array $optionalResponses = null, bool $isStrictCode = true)
     {
         $response = [
             'status'    =>  $this->errorStatus($errorCode),
@@ -29,13 +25,17 @@ trait ApiResponseTrait
             'message'   =>  $message
         ];
         if ($optionalResponses) {
-            foreach ($optionalResponses as $optionalResponse) {
-                foreach ($optionalResponses as $key => $value) {
-                    $response['key'] = $value;
-                }
-            }
+            $response = $this->addOptionalResponse($response, $optionalResponses);
         }
-        return response($response);
+        return response($response, $isStrictCode ? $errorCode : 200);
+    }
+
+    public function addOptionalResponse(array $response, $optionalResponses)
+    {
+        foreach ($optionalResponses as $key => $value) {
+            $response[$key] = $value;
+        }
+        return $response;
     }
 
     public function errorStatus(int $errorCode)

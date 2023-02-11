@@ -33,6 +33,6 @@ class AuthenticationController extends Controller
         if ($auth = $this->repo->logout()) {
             return $this->successResponse([], ['message'    =>  'Logged out!']);
         }
-        return $this->errorResponse('Logging out failed');
+        return $this->errorResponse('Logging out failed', 401);
     }
 }
