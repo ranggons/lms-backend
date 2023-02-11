@@ -12,9 +12,7 @@ trait ApiResponseTrait
             'data'      =>  $data
         ];
         if ($optionalResponses) {
-            foreach ($optionalResponses as $key => $value) {
-                $response['key'] = $value;
-            }
+            $response = $this->addOptionalResponse($response, $optionalResponses);
         }
         return response($response);
     }
@@ -27,11 +25,17 @@ trait ApiResponseTrait
             'message'   =>  $message
         ];
         if ($optionalResponses) {
-            foreach ($optionalResponses as $key => $value) {
-                $response['key'] = $value;
-            }
+            $response = $this->addOptionalResponse($response, $optionalResponses);
         }
         return response($response, $isStrictCode ? $errorCode : 200);
+    }
+
+    public function addOptionalResponse(array $response, $optionalResponses)
+    {
+        foreach ($optionalResponses as $key => $value) {
+            $response[$key] = $value;
+        }
+        return $response;
     }
 
     public function errorStatus(int $errorCode)

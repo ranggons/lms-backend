@@ -14,6 +14,11 @@ class LoginTest extends RangonTestCase
 
     protected $endpoint = "api/founding-father/auth/login";
 
+    public function setUp(): void
+    {
+        parent::setUp();
+    }
+
     public function test_login_with_dummy_super_user()
     {
         $credentials = [
@@ -25,12 +30,26 @@ class LoginTest extends RangonTestCase
 
     public function test_login_with_newly_created_super_user()
     {
+        User::create(
+            [
+                'name'      =>  'Testing User',
+                'email'     =>  'testing.user@rangon.id',
+                'password'  =>  bcrypt('password'),
+            ]
+        );
         $credentials = [
-            'name'      =>  'Testing User',
             'email'     =>  'testing.user@rangon.id',
             'password'  =>  'password',
         ];
-        User::create($credentials);
+        $response = $this->postRequest($this->endpoint, $credentials);
+    }
+
+    public function test_login_with_unregistered_record()
+    {
+        $credentials = [
+            'email'     =>  'testing.user@rangon.id',
+            'password'  =>  'passwor',
+        ];
         $this->validateCall = false;
         $response = $this->postRequest($this->endpoint, $credentials);
         $this->checkInvalidMessage($response, __('The credentials provided does not match with our record.'));

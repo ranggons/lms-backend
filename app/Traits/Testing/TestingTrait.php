@@ -2,6 +2,7 @@
 
 namespace App\Traits\Testing;
 
+use App\Models\User;
 use Laravel\Sanctum\Sanctum;
 
 trait TestingTrait
@@ -31,5 +32,20 @@ trait TestingTrait
         if ($status) {
             $this->assertEquals($response['status'], $status, 'Expected status equals to ' . $status);
         }
+    }
+
+    public function setActor($actor = null, string $return = null)
+    {
+        if (!$actor) {
+            $actor = User::query()->inRandomOrder()->first();
+        }
+
+        if ($return == 'token') {
+            return $actor->createToken('testing')->plainTextToken;
+        }
+        return Sanctum::actingAs(
+            $actor,
+            ['*']
+        );
     }
 }

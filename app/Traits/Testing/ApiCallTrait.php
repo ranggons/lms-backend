@@ -44,6 +44,7 @@ trait ApiCallTrait
 
             $this->response = $this->json($method, $url, $inputs, $headers);
             $data = data_get($this->response->decodeResponseJson()->json(), "data");
+            print_r($data);
 
             if (is_null($data)) {
                 $data = $this->response->decodeResponseJson()->json();
