@@ -3,6 +3,7 @@
 namespace App\Repositories\Rangon;
 
 use App\Models\User;
+use App\Notifications\Auth\PasswordChanged;
 use App\Notifications\Auth\ResetPassword;
 use App\Repositories\BaseRepository;
 use Carbon\Carbon;
@@ -79,6 +80,7 @@ class AuthenticationRepository extends BaseRepository
                 ],
             );
             if ($user->wasChanged()) {
+                $user->notify(new PasswordChanged());
                 return [
                     'status'    =>  true,
                     'message'   =>  'Password has been changed!'
