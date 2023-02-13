@@ -42,7 +42,7 @@ class LoginTest extends RangonTestCase
             'email'     =>  'testing.user@rangon.id',
             'password'  =>  'password',
         ];
-        $response = $this->login($this->endpoint, $credentials);
+        $this->login($this->endpoint, $credentials);
     }
 
     public function test_login_with_unregistered_record()

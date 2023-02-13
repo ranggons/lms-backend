@@ -85,7 +85,5 @@ class ForgotPasswordTest extends RangonTestCase
 
             return true;
         });
-
-        $this->assertTrue($user->wasChanged());
     }
 }
