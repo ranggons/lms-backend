@@ -4,13 +4,14 @@ namespace Tests\Feature\Rangon\Auth;
 
 use Tests\TestCase;
 use App\Models\User;
+use App\Traits\Testing\AuthenticationTestTrait;
 use Tests\Feature\Rangon\RangonTestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class LoginTest extends RangonTestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, AuthenticationTestTrait;
 
     protected $endpoint = "api/founding-father/auth/login";
 
@@ -25,7 +26,7 @@ class LoginTest extends RangonTestCase
             'email'     =>  'rangon@rangon.id',
             'password'  =>  'password',
         ];
-        $this->postRequest($this->endpoint, $credentials);
+        $this->login($this->endpoint, $credentials);
     }
 
     public function test_login_with_newly_created_super_user()
@@ -41,7 +42,7 @@ class LoginTest extends RangonTestCase
             'email'     =>  'testing.user@rangon.id',
             'password'  =>  'password',
         ];
-        $response = $this->postRequest($this->endpoint, $credentials);
+        $this->login($this->endpoint, $credentials);
     }
 
     public function test_login_with_unregistered_record()
@@ -51,7 +52,7 @@ class LoginTest extends RangonTestCase
             'password'  =>  'passwor',
         ];
         $this->validateCall = false;
-        $response = $this->postRequest($this->endpoint, $credentials);
+        $response = $this->login($this->endpoint, $credentials);
         $this->checkInvalidMessage($response, __('The credentials provided does not match with our record.'));
     }
 }

@@ -19,11 +19,11 @@ trait ApiCallTrait
         }
 
         if ($method == 'GET') {
-            if (!empty($input)) {
-                $input = (is_array($input)) ? $input : json_decode($input, 1);
-                $endpoint .= "?" . http_build_query($input);
+            if (!empty($inputs)) {
+                $inputs = (is_array($inputs)) ? $inputs : json_decode($inputs, 1);
+                $endpoint .= "?" . http_build_query($inputs);
             }
-            $input = [];
+            $inputs = [];
         }
 
         return $this->fetchRequest($method, url($endpoint), $inputs, $headers, $isReturnTypeIsFile);

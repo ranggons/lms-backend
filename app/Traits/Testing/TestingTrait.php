@@ -48,4 +48,18 @@ trait TestingTrait
             ['*']
         );
     }
+
+    public function initStub($class)
+    {
+        if (is_string($class)) {
+            $class = app($class)::class;
+        }
+
+        return $this->getMockBuilder($class)
+            ->disableOriginalConstructor()
+            ->disableOriginalClone()
+            ->disableArgumentCloning()
+            ->disallowMockingUnknownTypes()
+            ->getMock();
+    }
 }
