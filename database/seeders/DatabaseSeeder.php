@@ -21,10 +21,18 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        $this->call(
-            [
-                DevelopmentSeeder::class
-            ]
-        );
+        if (app()->isLocal()) {
+            $this->call(
+                [
+                    DevelopmentSeeder::class
+                ]
+            );
+        } elseif (app()->environment() == 'testing') {
+            $this->call(
+                [
+                    TestingSeeder::class
+                ]
+            );
+        }
     }
 }
