@@ -1,0 +1,33 @@
+name: Deployments
+
+on:
+  push:
+    branches: [ "main" , "dev"]
+
+jobs:
+  deploy-prod:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Unzip build zip on EC2 instance
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_INSTANCE_IP }}
+        username: ${{ secrets.EC2_INSTANCE_USERNAME }}
+        key: ${{ secrets.EC2_INSTANCE_KEY }}
+        script: |
+          cd /var/www/prod/backend/main
+          sudo git checkout main
+          sudo git pull origin
+  deploy-dev:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Unzip build zip on EC2 instance
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_INSTANCE_IP }}
+        username: ${{ secrets.EC2_INSTANCE_USERNAME }}
+        key: ${{ secrets.EC2_INSTANCE_KEY }}
+        script: |
+          cd /var/www/dev/backend/main
+          sudo git checkout dev
+          sudo git pull origin
