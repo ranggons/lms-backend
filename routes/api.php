@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\API\Rangon\AuthenticationController;
+use App\Http\Controllers\Api\Rangon\AuthenticationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
