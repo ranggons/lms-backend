@@ -2,19 +2,23 @@
 
 namespace App\Traits\API;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Symfony\Component\HttpFoundation\Response;
+
 trait ApiResponseTrait
 {
-    public function successResponse(array $data, array $optionalResponses = null)
+    public function successResponse(AnonymousResourceCollection|Model|array|null $data, array $optionalResponses = null)
     {
         $response = [
             'status'    =>  'success',
-            'code'      =>  '200',
+            'code'      =>  Response::HTTP_OK,
             'data'      =>  $data
         ];
         if ($optionalResponses) {
             $response = $this->addOptionalResponse($response, $optionalResponses);
         }
-        return response($response);
+        return response($response, Response::HTTP_OK);
     }
 
     public function errorResponse(string $message, int $errorCode = 400, array $optionalResponses = null, bool $isStrictCode = true)
