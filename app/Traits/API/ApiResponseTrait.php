@@ -4,11 +4,12 @@ namespace App\Traits\API;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Symfony\Component\HttpFoundation\Response;
 
 trait ApiResponseTrait
 {
-    public function successResponse(AnonymousResourceCollection|Model|array|null $data, array $optionalResponses = null)
+    public function successResponse(AnonymousResourceCollection|Model|JsonResource|array|null $data, array $optionalResponses = null)
     {
         $response = [
             'status'    =>  'success',

@@ -26,7 +26,9 @@ Route::prefix('auth')->controller(AuthenticationController::class)->group(functi
     });
 });
 
-Route::prefix('rangon')->group(base_path('routes/rangon.php'));
+Route::middleware('auth:sanctum')->group(function () {
+    Route::prefix('rangon')->group(base_path('routes/rangon.php'));
+});
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

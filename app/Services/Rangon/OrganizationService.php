@@ -4,37 +4,33 @@ namespace App\Services\Rangon;
 
 use App\Http\Resources\Api\Rangon\OrganizationResource;
 use App\Models\Rangon\Organization;
+use App\Traits\Services\DALTrait;
 
 class OrganizationService
 {
+    use DALTrait;
+
     public function get(?int $size, ?int $page, ?string $search, ?string $orderColumn, ?string $orderBy): array
     {
         $data = Organization::query();
 
-        if ($search) {
-            $data->where('name', 'like', $search);
-        }
-
-        $count = $data->count();
-
-        if ($orderColumn) {
-            $data = $data->orderBy($orderColumn, $orderBy ?? "asc");
-        }
-
-        if ($size && $page) {
-            $data = $data->skip(($page - 1) * $size)->limit($size);
-        }
-
-        $data = $data->get();
+        [$data, $count] = $this->query(
+            data: $data,
+            size: $size,
+            page: $page,
+            search: $search,
+            orderColumn: $orderColumn,
+            orderBy: $orderBy,
+            searchBy: "name"
+        );
 
         return [OrganizationResource::collection($data), $count];
     }
 
     public function create($request): Organization
     {
-        // TODO: create trait when model is creating for column created_by
         return Organization::create($request->validated() + [
-            'created_by' => 1
+            'created_by' => auth('sanctum')->id()
         ]);
     }
 

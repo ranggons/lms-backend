@@ -33,7 +33,7 @@ class AuthenticationRepository extends BaseRepository
 
     public function logout()
     {
-        if (auth()->user()->tokens()->delete()) {
+        if (request()->user()->currentAccessToken()->delete()) {
             return true;
         }
         return false;
